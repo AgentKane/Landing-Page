@@ -92,7 +92,37 @@
             -webkit-appearance: none;
             margin: 0;
         }
-    </style>
+
+        .image-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .image-container img {
+    max-width: 50px;
+    max-height: 50px;
+    transition: opacity 0.3s;
+  }
+
+  .image-container img:hover {
+    opacity: 0;
+  }
+
+  .image-container .hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 50px;
+    max-height: 50px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .image-container:hover .hover-image {
+    opacity: 1;
+  }
+
+</style>
 </head>
 
 <body>
@@ -142,7 +172,10 @@
         </tr>
     </table>
 
-    <a href="index.html"><img src="https://cdn-icons-png.flaticon.com/128/2997/2997744.png" width="50" height="50" style="max-width: 50px; max-height: 50px;"></a>
+    <a href="index.html" class="image-container">
+      <img src="https://bit.ly/451d0K8" alt="First Image">
+      <img class="hover-image" src="https://bit.ly/45YPa38" alt="Second Image">
+    </a>
 
     <script>
 
