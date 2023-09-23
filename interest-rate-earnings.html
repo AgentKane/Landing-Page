@@ -22,7 +22,7 @@
         }
 
         h2 {
-            margin-top: 50px;
+            margin-top: 15px;
             color: #363636;
         }
 
@@ -91,6 +91,19 @@
             font-size: 35px;
             font-weight: bold;
             color: #00ffc3;
+        }
+
+        .difference {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .positive {
+            color: #00ffc3;
+        }
+
+        .negative {
+            color: red;
         }
 
         input[type="number"]::-webkit-inner-spin-button,
@@ -175,10 +188,13 @@
 
         <table id="netProfit1">
             <tr>
-                <th class="center-align">Net Profit</th>
+                <th class="center-align">Net Profit 1</th>
             </tr>
             <tr>
                 <td class="NetProfit2" id="netProfitValue1">⠀</td>
+            </tr>
+            <tr id="difference"> 
+                <td class="difference" id="differenceValue">⠀</td>
             </tr>
         </table>
     </div>
@@ -226,13 +242,14 @@
 
         <table id="netProfit2">
             <tr>
-                <th class="center-align">Net Profit</th>
+                <th class="center-align">Net Profit 2</th>
             </tr>
             <tr>
                 <td class="NetProfit2" id="netProfitValue2">⠀</td>
             </tr>
         </table>
     </div>
+
 
     <script>
         document.getElementById("deposit1").addEventListener("keyup", function (event) {
@@ -276,6 +293,8 @@
             document.getElementById("taxableValue1").textContent = "£" + numberWithCommas(taxable.toFixed(2));
             document.getElementById("taxValue1").textContent = "£" + numberWithCommas(tax.toFixed(2));
             document.getElementById("netProfitValue1").textContent = "£" + numberWithCommas(netProfit.toFixed(2));
+
+            calculateDifference();
         }
 
         function calculate2() {
@@ -295,6 +314,26 @@
             document.getElementById("taxableValue2").textContent = "£" + numberWithCommas(taxable.toFixed(2));
             document.getElementById("taxValue2").textContent = "£" + numberWithCommas(tax.toFixed(2));
             document.getElementById("netProfitValue2").textContent = "£" + numberWithCommas(netProfit.toFixed(2));
+
+            calculateDifference();
+        }
+
+        function calculateDifference() {
+            const netProfit1 = parseFloat(document.getElementById("netProfitValue1").textContent.substring(1));
+            const netProfit2 = parseFloat(document.getElementById("netProfitValue2").textContent.substring(1));
+
+            const difference = netProfit1 - netProfit2;
+
+            const differenceElement = document.getElementById("differenceValue");
+            differenceElement.textContent = "£" + numberWithCommas(Math.abs(difference).toFixed(2));
+
+            if (difference < 0) {
+                differenceElement.classList.add("negative");
+                differenceElement.classList.remove("positive");
+            } else {
+                differenceElement.classList.add("positive");
+                differenceElement.classList.remove("negative");
+            }
         }
 
         function numberWithCommas(x) {
