@@ -193,9 +193,6 @@
             <tr>
                 <td class="NetProfit2" id="netProfitValue1">⠀</td>
             </tr>
-            <tr id="difference"> 
-                <td class="difference" id="differenceValue">⠀</td>
-            </tr>
         </table>
     </div>
 
@@ -316,24 +313,6 @@
             document.getElementById("netProfitValue2").textContent = "£" + numberWithCommas(netProfit.toFixed(2));
 
             calculateDifference();
-        }
-
-        function calculateDifference() {
-            const netProfit1 = parseFloat(document.getElementById("netProfitValue1").textContent.substring(1));
-            const netProfit2 = parseFloat(document.getElementById("netProfitValue2").textContent.substring(1));
-
-            const difference = netProfit1 - netProfit2;
-
-            const differenceElement = document.getElementById("differenceValue");
-            differenceElement.textContent = "£" + numberWithCommas(Math.abs(difference).toFixed(2));
-
-            if (difference < 0) {
-                differenceElement.classList.add("negative");
-                differenceElement.classList.remove("positive");
-            } else {
-                differenceElement.classList.add("positive");
-                differenceElement.classList.remove("negative");
-            }
         }
 
         function numberWithCommas(x) {
