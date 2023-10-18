@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Countdown</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+	<style>
+		body {
+			background-color: #343434;
+			color: white;
+			font-family: 'Poppins', sans-serif;
+			font-size: 24px;
+			text-align: center;
+		}
+		table {
+			margin: 0 auto;
+			border-collapse: collapse;
+			width: 750px;
+			margin-bottom: 50px;
+		}
+		th, td {
+            width: 250px;
+			padding: 10px;
+			border: 1px solid white;
+		}
+		th {
+			background-color: #4d4d4d;
+		}
+		td {
+			background-color: #666666;
+		}
+
+        p{
+            padding: 0;
+            margin: 0;
+        }
+
+        #age{
+            margin: 0;
+            padding: 0;
+            font-size: 75px;
+            font-weight: bolder;
+        }
+
+        input{
+            width: 115px;
+            padding: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button{
+            width: 137.5px;
+            margin-bottom: 50px;
+            padding: 7.5px;
+            border: none;
+            background-color: #666666;
+            color: #b0b0b0;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bolder;
+        }
+	</style>
+</head>
+<body>
+	<h1>Time Left</h1>
+	<input type="date" id="datePicker"> <br>
+	<button onclick="calculate()">Calculate</button>
+	<table id="countdownTable">
+		<tr>
+			<th>Days</th>
+            <th>Weeks</th>
+            <th>Months</th>
+		</tr>
+		<tr>
+			<td id="days"></td>
+            <td id="weeks"></td>
+            <td id="months"></td>
+		</tr>
+	</table>
+
+	<p id="age"></p>
+    <p>Years Old</p>
+
+	<script>
+    function calculate() {
+			const datePicker = document.getElementById("datePicker");
+			const selectedDate = new Date(datePicker.value);
+			const birthDate = new Date("1982-09-18");
+			const timeDiff = selectedDate.getTime() - Date.now();
+			const months = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
+			const weeks = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 7));
+			const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+			document.getElementById("months").innerHTML = months;
+			document.getElementById("weeks").innerHTML = weeks;
+			document.getElementById("days").innerHTML = days;
+			const ageDiff = selectedDate.getTime() - birthDate.getTime();
+			const ageYears = Math.floor(ageDiff / (1000 * 60 * 60 * 24 * 365));
+			document.getElementById("age").innerHTML = ageYears;
+		}
+	</script>
+</body>
+</html>
