@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Generate SKU Codes</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+
+  background-color: #1c1c1c;
+  color: white;
+}
+
+.prefix-text{
+  color: #3a3a3a;
+}
+
+#prefix {
+  padding: 25px;
+  background-color: #1c1c1c;
+  border: 2px solid rgb(255, 255, 255);
+  color: white;
+  text-align: center;
+}
+
+.container {
+  text-align: center;
+}
+
+.sku {
+  font-size: 50px;
+  font-weight: bolder;
+  color: #fdf7ab;
+}
+
+button {
+  background-color: #d6d6d6;
+  color: #353535;
+  border: none;
+  padding: 10px 80px; 
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+button:hover{
+  background-color: #fff;
+}
+
+.generate-button{
+  background-color: #d6d6d6;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding: 10px 53px;  
+  font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- PREFIX TEXT BOX -->
+<label for="prefix" class="prefix-text"><b>COLLECTION</b></label><br> 
+<input type="text" id="prefix"><br>
+
+<!-- GENERATE BUTTON -->
+<button onclick="generateSKUs()" class="generate-button">Generate SKUs</button>
+
+<!-- SKU CODES -->
+  <div id="skus"></div>
+
+
+</div>
+
+<script>
+
+function generateSKU() {
+
+let prefix = document.getElementById("prefix").value.toUpperCase();
+
+if (!prefix) {
+  prefix = "";
+  for (let i = 0; i < 3; i++) {
+    prefix += String.fromCharCode(Math.floor(Math.random() * 26) + 65); 
+  }
+}
+
+let sku = prefix + "/";
+
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const numbers = "0123456789";
+
+for (let i = 0; i < 3; i++) {
+  sku += letters.charAt(Math.floor(Math.random() * letters.length));
+  sku += numbers.charAt(Math.floor(Math.random() * numbers.length));
+}
+
+return sku;
+}
+
+function generateSKUs() {
+
+let skus = "";
+
+for (let i = 0; i < 1; i++) {
+
+  const sku = generateSKU();
+  
+  skus += `
+    <div class="sku">
+      ${sku} <br>  
+      <button onclick="copySKU('${sku}')">Copy</button>
+    </div>
+  `;
+
+}
+
+document.getElementById("skus").innerHTML = skus;
+
+}
+
+function copySKU(sku) {
+  navigator.clipboard.writeText(sku);
+}
+
+</script>
+
+</body>
+</html>
