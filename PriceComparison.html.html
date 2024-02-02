@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Price Comparison</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+    }
+    h1 {
+        text-align: center;
+        margin-top: 30px;
+        font-weight: 900;
+    }
+
+    #editTitleLink {
+        cursor: pointer;
+        max-width: 16px;
+        max-height: 16px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: calc(100% - 10px);
+        margin: 5px 0 15px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 16px;
+    }
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    .button-container input{
+        margin-left: 7.5px;
+    }
+    button {
+        width: 49%;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .delete-all{background-color: #808080; color: #f7f7f7;}
+    .delete-all:hover{background-color: #707070;}
+
+
+    table {
+        width: 98%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        margin: auto;
+    }
+
+    /* Align column to center */
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    /* 1st column */
+    td:nth-child(1) {text-align: left;}
+
+    /* 2nd column */
+    td:nth-child(2) {text-align: center;}
+
+    /* 3rd column */
+    td:nth-child(3) {text-align: center;}
+
+    /* 4th column */
+    td:nth-child(4) {text-align: center;}
+
+    /* 5th column */
+    td:nth-child(5) {text-align: center;}
+
+    /* 6th column */
+    td:nth-child(6) {text-align: center;}
+
+    .row-1{width: 28%; text-align: left;}
+    .row-2{width: 10%; text-align: center;}
+    .row-3{width: 10%; text-align: center;}
+    .row-4{width: 21%; text-align: center;}
+    .row-5{width: 21%; text-align: center;}
+    .row-6{width: 8%; text-align: center;}
+
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .cheapest {
+        background-color: #d4ffd4 !important;
+    }
+    .negative {
+        color: red;
+    }
+    .delete-button {
+        background-color: transparent;
+        color: #ff0000;
+        font-weight: bolder;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.4s ease;
+    }
+    .delete-button:hover {
+        color: #ffffff;
+        background-color: #ff0000;
+        transition: background-color 0.4s ease;
+    }
+
+
+    
+
+
+</style>
+</head>
+<body>
+    
+    
+    
+    <h1>
+        <span id="editableTitle">Price Comparison</span>
+        <!-- Replaced button with an image link -->
+        <img id="editTitleLink" src="https://bit.ly/3SGlvaO" alt="Edit Title" onclick="editTitle()">
+    </h1>
+
+
+
+
+    <div class="container">
+        <div class="button-container">
+            <input type="text" id="productName" placeholder="Shop Name">
+
+            <input type="number" id="productPrice" placeholder="Price (£)">
+
+            <input type="number" id="productQuantity" placeholder="Quantity (g)">
+        </div>
+        <div class="button-container">
+            <button onclick="addProduct()">Add Product</button>
+            <button onclick="deleteAllRows()" class="delete-all">Delete All</button>
+        </div>
+    </div>
+    <table id="productTable">
+        <tr>
+            <th class="row-1">Shop Name</th>
+            <th class="row-2">Price (£)</th>
+            <th class="row-3">Quantity (g)</th>
+            <th class="row-4">Price / 100g (£)</th>
+            <th class="row-5">Compared to Cheapest (£)</th>
+            <th class="row-6">Delete</th>
+        </tr>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("productName").focus();
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                addProduct();
+            }
+        });
+
+        function addProduct() {
+            var productName = document.getElementById("productName").value;
+            var productPrice = parseFloat(document.getElementById("productPrice").value);
+            var productQuantity = parseFloat(document.getElementById("productQuantity").value);
+            var pricePer100g = (productPrice / (productQuantity / 100)).toFixed(2);
+
+            var table = document.getElementById("productTable");
+            var row = table.insertRow(-1);
+            var nameCell = row.insertCell(0);
+            var priceCell = row.insertCell(1);
+            var quantityCell = row.insertCell(2);
+            var pricePer100gCell = row.insertCell(3);
+            var varianceCell = row.insertCell(4);
+            var actionCell = row.insertCell(5);
+
+            nameCell.textContent = productName;
+            priceCell.textContent = "£" + productPrice.toFixed(2);
+            quantityCell.textContent = productQuantity + "g";
+            pricePer100gCell.textContent = pricePer100g;
+
+            var deleteButton = document.createElement("button");
+            deleteButton.innerHTML = "&#128465;";
+            deleteButton.classList.add("delete-button");
+            deleteButton.onclick = function() {
+                table.deleteRow(row.rowIndex);
+                highlightCheapest();
+                calculateVariances();
+            };
+            actionCell.appendChild(deleteButton);
+
+            document.getElementById("productName").value = "";
+            document.getElementById("productPrice").value = "";
+            document.getElementById("productQuantity").value = "";
+
+            highlightCheapest();
+            calculateVariances();
+            document.getElementById("productName").focus();
+        }
+
+        function deleteAllRows() {
+            var table = document.getElementById("productTable");
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+        }
+
+        function highlightCheapest() {
+            var table = document.getElementById("productTable");
+            var rows = table.getElementsByTagName("tr");
+            var lowestPrice = Number.MAX_VALUE;
+            var cheapestRow;
+            for (var i = 1; i < rows.length; i++) {
+                var row = rows[i];
+                var cells = row.getElementsByTagName("td");
+                if (cells.length >= 4) {
+                    var pricePer100g = parseFloat(cells[3].innerText);
+                    if (pricePer100g < lowestPrice) {
+                        lowestPrice = pricePer100g;
+                        if (cheapestRow) {
+                            cheapestRow.classList.remove("cheapest");
+                        }
+                        cheapestRow = row;
+                    }
+                }
+            }
+            if (cheapestRow) {
+                cheapestRow.classList.add("cheapest");
+            }
+        }
+
+        function calculateVariances() {
+            var table = document.getElementById("productTable");
+            var rows = table.getElementsByTagName("tr");
+            var cheapestPrice = parseFloat(table.getElementsByClassName("cheapest")[0].getElementsByTagName("td")[3].innerText);
+            for (var i = 1; i < rows.length; i++) {
+                var row = rows[i];
+                var cells = row.getElementsByTagName("td");
+                if (cells.length >= 5) {
+                    var pricePer100g = parseFloat(cells[3].innerText);
+                    var variance = (pricePer100g - cheapestPrice).toFixed(2);
+                    cells[4].textContent = variance;
+                    if (variance > 0) {
+                        cells[4].classList.add("negative");
+                    }
+                }
+            }
+        }
+
+        function editTitle() {
+        var titleSpan = document.getElementById("editableTitle");
+        var newTitle = prompt("Enter new title:");
+        if (newTitle !== null && newTitle.trim() !== "") {
+            titleSpan.textContent = newTitle;
+            document.getElementById("pageTitle").textContent = newTitle;
+        }
+    }
+
+    </script>
+</body>
+</html>
