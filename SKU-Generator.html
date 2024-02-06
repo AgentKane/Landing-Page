@@ -13,22 +13,30 @@ body {
   align-items: center;
   justify-content: center;
   margin-top: 50px;
-
   background-color: #1c1c1c;
   color: white;
 }
 
 .prefix-text{
   color: #3a3a3a;
-  padding-bottom: 50px;
+  padding-bottom: 50px; 
 }
 
 #prefix {
+  width: 50%;
   padding: 25px;
+  margin-top: 10px;
   background-color: #1c1c1c;
   border: 2px solid rgb(255, 255, 255);
   color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
   text-align: center;
+  font-weight: bold;
+}
+/* Placeholder text color */
+#prefix::placeholder {
+  color: #3a3a3a; /* Change to your desired color */
 }
 
 .container {
@@ -42,6 +50,7 @@ body {
 }
 
 button {
+  width: 64%;
   background-color: #d6d6d6;
   color: #353535;
   border: none;
@@ -72,63 +81,56 @@ button:hover{
 <div class="container">
 
 <!-- PREFIX TEXT BOX -->
-<label for="prefix" class="prefix-text"><b>COLLECTION</b></label><br> 
-<input type="text" id="prefix"><br>
+<label for="prefix" class="prefix-text"><b>MEGA STORAGE</b></label><br> 
+<input type="text" id="prefix" placeholder="Insert Number" onkeypress="handleKeyPress(event)"><br>
 
 <!-- GENERATE BUTTON -->
-<button onclick="generateSKUs()" class="generate-button">Generate SKUs</button>
+<button id="generateButton" onclick="generateSKUs()" class="generate-button">Generate SKUs</button>
 
 <!-- SKU CODES -->
-  <div id="skus"></div>
-
+<div id="skus"></div>
 
 </div>
 
 <script>
 
-function generateSKU() {
-
-let prefix = document.getElementById("prefix").value.toUpperCase();
-
-if (!prefix) {
-  prefix = "";
-  for (let i = 0; i < 3; i++) {
-    prefix += String.fromCharCode(Math.floor(Math.random() * 26) + 65); 
+function handleKeyPress(event) {
+  if (event.keyCode === 13) { // Check if the key pressed is "Enter"
+    event.preventDefault(); // Prevent default form submission
+    generateSKUs(); // Call the function to generate SKUs
   }
 }
 
-let sku = prefix + "/";
+function generateSKU() {
+  let prefix = "MG" + document.getElementById("prefix").value.toUpperCase();
 
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const numbers = "0123456789";
+  let sku = prefix + "-";
 
-for (let i = 0; i < 3; i++) {
-  sku += letters.charAt(Math.floor(Math.random() * letters.length));
-  sku += numbers.charAt(Math.floor(Math.random() * numbers.length));
-}
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
 
-return sku;
+  for (let i = 0; i < 3; i++) {
+    sku += letters.charAt(Math.floor(Math.random() * letters.length));
+    sku += numbers.charAt(Math.floor(Math.random() * numbers.length));
+  }
+
+  return sku;
 }
 
 function generateSKUs() {
+  let skus = "";
 
-let skus = "";
+  for (let i = 0; i < 1; i++) {
+    const sku = generateSKU();
+    skus += `
+      <div class="sku">
+        ${sku} <br>  
+        <button onclick="copySKU('${sku}')">Copy</button>
+      </div>
+    `;
+  }
 
-for (let i = 0; i < 1; i++) {
-
-  const sku = generateSKU();
-  
-  skus += `
-    <div class="sku">
-      ${sku} <br>  
-      <button onclick="copySKU('${sku}')">Copy</button>
-    </div>
-  `;
-
-}
-
-document.getElementById("skus").innerHTML = skus;
-
+  document.getElementById("skus").innerHTML = skus;
 }
 
 function copySKU(sku) {
