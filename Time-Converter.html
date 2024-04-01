@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Converter</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #1d1c1c;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .container {
+    text-align: center;
+  }
+  input {
+    background-color: #1d1c1c;
+    border: 2px solid #292828;
+    text-align: center;
+    font-weight: bolder;
+    color: white;
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 5px;
+    outline: none;
+    width: 200px;
+  }
+  input::placeholder {
+    color: #4f4f4f;
+  }
+  #result {
+    margin-top: 20px;
+    font-size: 40px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <input type="text" id="minuteInput" placeholder="Insert minutes" onkeypress="checkEnter(event)">
+  <div id="result"></div>
+</div>
+<script>
+  function checkEnter(event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent form submission if part of a form
+      const inputField = document.getElementById('minuteInput');
+      try {
+        // Evaluate the arithmetic expression in the input field
+        const totalMinutes = eval(inputField.value);
+        // Convert total minutes to hours and minutes
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        const resultText = hours + " Hrs " + minutes + " min";
+        document.getElementById('result').innerText = resultText;
+      } catch (e) {
+        document.getElementById('result').innerText = "Invalid input";
+      }
+    }
+  }
+</script>
+</body>
+</html>
